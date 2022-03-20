@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+
+    Редактировать.
+
+{% endblock %}
+
+{% block content_title %}
+
+    Редактировать/обновить информацию.
+
+{% endblock %}
+
+
+
+{% block add_company_form %}
+<!-- параметр slug передаётся в функцию edit_record( slug ) -->
+<form action="{{ url_for('msfo_records.edit_record', slug=record.slug) }}" method="POST">
+
+    {% for field in form if field.name not in ['csrf_token'] %}
+    <div>
+        {{ field.label(class="control-label") }}
+        {{ field(class="form-control") }}<br>
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-outline-success">Обновить</button>
+
+</form>
+{% endblock %}> 

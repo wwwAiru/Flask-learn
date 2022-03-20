@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>
+        {% block title %}
+        {% endblock %} | @Msfo_stock_bot
+    </title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/style.css') }}">
+</head>
+
+<body>
+
+<div class="container-fluid">
+
+    <nav class="navbar navbar-expand-sm navbar navbar-light">
+
+        <a class="navbar-brand" href="{{ url_for('index') }}">О проекте</a>
+
+    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button> -->
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('msfo_records.index') }}">Таблица отчётов</a>
+                </li>
+
+            </ul>
+
+                        <!-- строка поиска отображается только на странице с таблицей отчётов -->
+            {% if request.url_rule.endpoint == "msfo_records.index" %}
+            <form class="d-flex" method="GET">
+                <!-- name="search" - задаём имя переменной, request - это глобальный зарезервированный объект flask'a,
+                метод args - словарь объекта request, метод словаря get выдаёт значению по ключу search, если ничего нет,
+                в бэк передаётся  пустая строка -->
+                <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search"
+                       name="search" value="{{ request.args.get('search', '') }}">
+                <button class="btn btn-outline-success" type="submit">Найти</button>
+            </form>
+            {% endif %}
+
+
+            <!-- отображение кнопок "вход" и "выход" в зависимости от того залогинин ли пользователь или нет -->
+
+            <ul class="navbar-nav mb-2 mb-lg-0 justify-content-end">
+
+                {% if not current_user.is_authenticated and request.url_rule.endpoint != "security.login" %}
+                <li class="nav-item">
+                    <a class="nav-link active" href="/login">Вход</a>
+                </li>
+                {% endif %}
+                {% if not current_user.is_authenticated and request.url_rule.endpoint != "security.register" %}
+                <li class="nav-item">
+                    <a class="nav-link active" href="/registration">Регистрация</a>
+                </li>
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link active" href="/logout">Выход</a>
+                </li>
+                {% endif %}
+
+
+                <!-- отображение кнопки "Панель администратора" если текущий пользователь админ -->
+                {% if current_user.has_role('admin') %}
+                <li class="nav-item">
+                    <a class="nav-link active" href="/admin">Панель администратора</a>
+                </li>
+                {% endif %}
+
+
+                <!-- отображение кнопки "Профиль" если текущий пользователь залогинин -->
+                {% if current_user.is_authenticated and request.url_rule.endpoint != "user_profile.index"  %}
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ url_for('user_profile.index') }}">Профиль: {{ current_user.email }}</a>
+                </li>
+                {% endif %}
+
+            </ul>
+        </div>
+
+    </nav>
+</div>
+
+
+<div class="text-center lh-base p-4">
+    <h2>
+        {% block content_title %}
+        {% endblock %}
+    </h2>
+
+
+<br>
+<div class="conteiner col-4 mx-auto">
+{% block add_company_form %}
+{% endblock %}
+</div>
+<br>
+</div>
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+
+
+</body>
+</html>
+
+<footer class="conteiner col-8 mx-auto opacity-50 p-4">
+{% block footer %}
+{% endblock %}
+</footer>
