@@ -17,4 +17,4 @@
   4. При создании тестового пользователя применяются различные поля: EmailField, PasswordField, StringField, SelectField, DateField прочитать о них можно в документации библиотеки flask-wtf. К полям пароля применены валидаторы InputRequired(обязательное поле), EqualTo(схожесть поля с подтвержением пароля), Length(длина мин. и макс.)
   5. В проекте множество функций представления со статическими маршрутами, а так же динамическим(```python
     <input type="text">
-```msfo_records\content_blueprint.py  http://192.168.1.229:5000/msfo_records/</slug/>/edit/). Функции представления обрабатывают GET и POST запросы.
+msfo_records\content_blueprint.py  http://192.168.1.229:5000/msfo_records/</slug/>/edit/)```. Функции представления обрабатывают GET и POST запросы.
