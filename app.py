@@ -110,7 +110,7 @@ class AboutAdminView(AdminMixin, ModelView):
     pass
 
 # создан экземпляр класса Admin
-admin = Admin(app, '@Msfo_stock_bot', template_mode='bootstrap4', url='/',
+admin = Admin(app, 'На главную', template_mode='bootstrap4', url='/',
               index_view=AdminPanelView(name='Инструкция'))
 # ModelView или расширеный от него, в нашем случае, AdminView - подхватывает классы б.д. из models.py
 # и реализуем модель 'C.R.U.D.' для управлением любыми данными из б.д.
